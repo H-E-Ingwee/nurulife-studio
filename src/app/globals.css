@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 349 79% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 20%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 30 89% 52%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 349 79% 26%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-nuru-lgray text-nuru-dgray font-body;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  /* ── NuruLife Brand Components ─────────────────────────────────────────── */
+  .nuru-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-100 p-6;
+  }
+
+  .nuru-card-hover {
+    @apply nuru-card hover:shadow-md transition-shadow duration-200 cursor-pointer;
+  }
+
+  .nuru-btn-primary {
+    @apply bg-nuru-maroon text-white font-heading font-semibold px-4 py-2 rounded-md
+           hover:bg-opacity-90 transition-all duration-200 text-sm;
+  }
+
+  .nuru-btn-secondary {
+    @apply bg-nuru-orange text-white font-heading font-semibold px-4 py-2 rounded-md
+           hover:bg-opacity-90 transition-all duration-200 text-sm;
+  }
+
+  .nuru-btn-outline {
+    @apply border-2 border-nuru-maroon text-nuru-maroon font-heading font-semibold
+           px-4 py-2 rounded-md hover:bg-nuru-maroon hover:text-white
+           transition-all duration-200 text-sm;
+  }
+
+  .nuru-btn-ghost {
+    @apply text-nuru-dgray font-heading font-medium px-4 py-2 rounded-md
+           hover:bg-nuru-lgray transition-all duration-200 text-sm;
+  }
+
+  .nuru-input {
+    @apply w-full border border-gray-200 rounded-md px-3 py-2 text-sm
+           focus:outline-none focus:ring-2 focus:ring-nuru-orange focus:border-transparent
+           bg-white text-nuru-dgray placeholder-gray-400;
+  }
+
+  .nuru-label {
+    @apply block text-xs font-heading font-semibold text-nuru-blue uppercase
+           tracking-wide mb-1;
+  }
+
+  .nuru-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .nuru-section-title {
+    @apply text-lg font-heading font-bold text-nuru-maroon mb-4;
+  }
+
+  .nuru-divider {
+    @apply border-t-2 border-nuru-orange my-6;
+  }
+
+  /* ── Screenplay Editor ─────────────────────────────────────────────────── */
+  .screenplay-editor {
+    @apply font-mono text-sm leading-relaxed;
+    font-family: 'Courier Prime', 'Courier New', monospace;
+  }
+
+  .screenplay-editor .ProseMirror {
+    @apply outline-none min-h-screen p-8;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .screenplay-editor .ProseMirror p {
+    @apply mb-2;
+  }
+
+  .screenplay-editor .ProseMirror p.scene-heading {
+    @apply uppercase font-bold mt-6 mb-2;
+  }
+
+  .screenplay-editor .ProseMirror p.action {
+    @apply mb-3;
+  }
+
+  .screenplay-editor .ProseMirror p.character {
+    @apply uppercase ml-40 mb-0;
+  }
+
+  .screenplay-editor .ProseMirror p.dialogue {
+    @apply ml-24 mr-24 mb-2;
+  }
+
+  .screenplay-editor .ProseMirror p.parenthetical {
+    @apply ml-32 mr-32 italic mb-0;
+  }
+
+  .screenplay-editor .ProseMirror p.transition {
+    @apply uppercase text-right mb-4;
+  }
+
+  .screenplay-editor .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply text-gray-400 pointer-events-none float-left h-0;
+  }
+
+  /* ── Stripboard ────────────────────────────────────────────────────────── */
+  .strip-card {
+    @apply rounded border-l-4 p-2 mb-1 bg-white shadow-sm cursor-grab
+           hover:shadow-md transition-shadow text-xs;
+  }
+
+  .strip-card.status-not-started  { @apply border-l-gray-400; }
+  .strip-card.status-in-progress  { @apply border-l-nuru-orange; }
+  .strip-card.status-completed    { @apply border-l-green-500; }
+  .strip-card.status-postponed    { @apply border-l-red-400; }
+
+  /* ── Kanban Board ──────────────────────────────────────────────────────── */
+  .kanban-column {
+    @apply bg-nuru-lgray rounded-lg p-3 min-h-64 w-72 flex-shrink-0;
+  }
+
+  .kanban-card {
+    @apply bg-white rounded-md p-3 mb-2 shadow-sm cursor-pointer
+           hover:shadow-md transition-shadow border border-gray-100;
+  }
+
+  /* ── Mood Board ────────────────────────────────────────────────────────── */
+  .mood-board-item {
+    @apply relative rounded-lg overflow-hidden cursor-pointer
+           hover:ring-2 hover:ring-nuru-orange transition-all;
+  }
+
+  /* ── Scrollbar ─────────────────────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-nuru-lgray; }
+  ::-webkit-scrollbar-thumb { @apply bg-gray-300 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-gray-400; }
+
+  /* ── Animations ────────────────────────────────────────────────────────── */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── AI Panel ──────────────────────────────────────────────────────────── */
+  .ai-panel {
+    @apply fixed right-0 top-0 h-full w-96 bg-white shadow-2xl
+           border-l border-gray-200 z-50 flex flex-col;
+  }
+
+  .ai-message-user {
+    @apply bg-nuru-lgray rounded-lg p-3 ml-8 text-sm text-nuru-dgray;
+  }
+
+  .ai-message-assistant {
+    @apply bg-nuru-blue bg-opacity-5 border border-nuru-blue border-opacity-20
+           rounded-lg p-3 mr-8 text-sm text-nuru-dgray;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  .nuru-gradient {
+    background: linear-gradient(135deg, #730E20 0%, #032940 100%);
+  }
+
+  .nuru-gradient-orange {
+    background: linear-gradient(135deg, #F27D16 0%, #730E20 100%);
+  }
+}
