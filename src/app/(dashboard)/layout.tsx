@@ -8,10 +8,27 @@ import NuruHeader from '@/components/layout/NuruHeader'
 import { Loader2 } from 'lucide-react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
+  const router   = useRouter()
   const pathname = usePathname()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser]     = useState<any>(null)
   const [loading, setLoading] = useState(true)
+
+  async function ensurePrismaUser(supabaseUser: any) {
+    try {
+      await fetch('/api/auth/register', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id:    supabaseUser.id,
+          email: supabaseUser.email,
+          name:  supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0],
+          role:  supabaseUser.user_metadata?.role || 'COLLABORATOR',
+        }),
+      })
+    } catch (err) {
+      console.error('Failed to sync user to DB:', err)
+    }
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -19,13 +36,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         router.push('/login')
       } else {
         setUser(session.user)
+        ensurePrismaUser(session.user)
         setLoading(false)
       }
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) router.push('/login')
-      else setUser(session.user)
+      if (!session) {
+        router.push('/login')
+      } else {
+        setUser(session.user)
+        ensurePrismaUser(session.user)
+      }
     })
 
     return () => subscription.unsubscribe()
@@ -37,6 +59,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="text-center">
           <Loader2 size={40} className="animate-spin text-nuru-orange mx-auto mb-4" />
           <p className="text-white text-opacity-70 font-body text-sm">Loading NuruLife Studio...</p>
+          <p className="text-white text-opacity-30 font-body text-xs mt-1">"Shining Light, Transforming Lives."</p>
         </div>
       </div>
     )

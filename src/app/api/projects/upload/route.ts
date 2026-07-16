@@ -127,8 +127,7 @@ function extractCast(text: string): string[] {
       names.push(name)
     }
   }
-  const uniqueNames = Array.from(new Set(names))
-  return uniqueNames.slice(0, 15)
+  return [...new Set(names)].slice(0, 15)
 }
 
 export async function POST(req: Request) {
@@ -147,7 +146,7 @@ export async function POST(req: Request) {
     const scenes     = parseScenes(scriptText)
 
     // Extract metadata
-    const loglineText  = logline || scriptText.match(/LOGLINE\s+([\s\S]{50,500}?)(?:CAST|ACT ONE|FADE IN)/i)?.[1]?.trim().slice(0, 500) || ''
+    const loglineText  = logline || scriptText.match(/LOGLINE\s+(.{50,500}?)(?:CAST|ACT ONE|FADE IN)/is)?.[1]?.trim().slice(0, 500) || ''
     const genreText    = scriptText.match(/Genre:\s*([^\n.]+)/i)?.[1]?.trim() || ''
     const settingText  = scriptText.match(/Setting:\s*([^\n.]+)/i)?.[1]?.trim() || ''
     const runtimeText  = scriptText.match(/Runtime:\s*([^\n.]+)/i)?.[1]?.trim() || ''
